@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RideWarp</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #050505;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 7%;
+}
+
+.logo {
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.nav {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+  color: #aaa;
+  font-size: 14px;
+}
+
+.hero {
+  text-align: center;
+  padding: 100px 20px 70px;
+}
+
+.hero h1 {
+  font-size: clamp(48px, 9vw, 90px);
+  margin: 0;
+  letter-spacing: -5px;
+}
+
+.hero p {
+  color: #999;
+  font-size: 18px;
+  margin: 20px auto 35px;
+  max-width: 500px;
+}
+
+.upload {
+  width: min(650px, 90%);
+  min-height: 280px;
+  margin: auto;
+  border: 1px solid #292929;
+  border-radius: 22px;
+  background: #0b0b0b;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.upload-icon {
+  font-size: 42px;
+  margin-bottom: 15px;
+}
+
+.upload h2 {
+  margin: 5px;
+}
+
+.upload p {
+  font-size: 14px;
+  margin: 10px 0 25px;
+  color: #777;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.button {
+  background: white;
+  color: black;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 25px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.button:hover {
+  transform: scale(1.03);
+}
+
+.section {
+  width: min(900px, 90%);
+  margin: 40px auto;
+}
+
+.section h2 {
+  font-size: 25px;
+}
+
+.options {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.option {
+  padding: 20px;
+  border: 1px solid #292929;
+  border-radius: 14px;
+  background: #0b0b0b;
+  text-align: center;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.option:hover {
+  border-color: white;
+  color: white;
+}
+
+.prompt {
+  width: 100%;
+  margin-top: 15px;
+  background: #0b0b0b;
+  border: 1px solid #292929;
+  border-radius: 14px;
+  padding: 18px;
+  color: white;
+  font-size: 15px;
+  outline: none;
+}
+
+.generate {
+  display: block;
+  margin: 25px auto 100px;
+  padding: 16px 40px;
+  border-radius: 13px;
+  border: none;
+  background: white;
+  color: black;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+footer {
+  text-align: center;
+  padding: 30px;
+  color: #555;
+  border-top: 1px solid #151515;
+}
+
+@media (max-width: 600px) {
+  .nav {
+    display: none;
+  }
+
+  .hero {
+    padding-top: 70px;
+  }
+
+  .options {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">RIDEWARP</div>
+
+  <div class="nav">
+    <span>How it works</span>
+    <span>Pricing</span>
+    <span>Login</span>
+  </div>
+</header>
+
+<section class="hero">
+
+  <h1>Turn your ride<br>into anywhere.</h1>
+
+  <p>
+    Transform your bike videos into completely different worlds with AI.
+  </p>
+
+  <div class="upload">
+
+    <div class="upload-icon">↑</div>
+
+    <h2>Upload your ride</h2>
+
+    <p>Choose a video to start creating.</p>
+
+    <label class="button">
+      Choose video
+      <input type="file" accept="video/*">
+    </label>
+
+  </div>
+
+</section>
+
+<section class="section">
+
+  <h2>Choose your world</h2>
+
+  <div class="options">
+    <div class="option">🏔️ Mountain</div>
+    <div class="option">❄️ Snow</div>
+    <div class="option">🌆 City</div>
+    <div class="option">🌌 Space</div>
+  </div>
+
+  <input
+    class="prompt"
+    placeholder="Describe your own environment..."
+  >
+
+</section>
+
+<button class="generate">
+  Generate video
+</button>
+
+<footer>
+  © 2026 RideWarp
+</footer>
+
+</body>
+</html>
