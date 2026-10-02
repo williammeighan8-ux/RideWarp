@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RideWarp — Transform Your Ride</title>
+<title>RideWarp — AI Ride Visuals</title>
 
 <style>
 *{
@@ -17,11 +17,13 @@ html{
 }
 
 body{
-  background:#050505;
+  background:#030303;
   color:#fff;
   font-family:Arial,Helvetica,sans-serif;
   overflow-x:hidden;
 }
+
+/* BACKGROUND */
 
 body:before{
   content:"";
@@ -31,120 +33,216 @@ body:before{
   background-image:
     radial-gradient(circle,#fff 1px,transparent 1px),
     radial-gradient(circle,#fff 1px,transparent 1px);
-  background-size:140px 140px,220px 220px;
-  background-position:20px 40px,100px 120px;
-  opacity:.12;
-  animation:stars 18s linear infinite;
+  background-size:130px 130px,210px 210px;
+  background-position:20px 30px,90px 100px;
+  opacity:.13;
+  animation:stars 20s linear infinite;
+  z-index:0;
+}
+
+body:after{
+  content:"";
+  position:fixed;
+  width:600px;
+  height:600px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.07),transparent 65%);
+  top:-250px;
+  left:50%;
+  transform:translateX(-50%);
+  pointer-events:none;
+  z-index:0;
 }
 
 @keyframes stars{
   from{transform:translateY(0)}
-  to{transform:translateY(140px)}
+  to{transform:translateY(130px)}
 }
+
+/* HEADER */
 
 header{
   width:100%;
-  padding:22px 6%;
+  padding:20px 6%;
   display:flex;
   justify-content:space-between;
   align-items:center;
   position:relative;
-  z-index:2;
+  z-index:5;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  background:rgba(3,3,3,.65);
+  backdrop-filter:blur(14px);
 }
 
 .logo{
-  font-size:26px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:23px;
   font-weight:900;
   letter-spacing:-1.5px;
 }
 
+.logo-spin{
+  width:34px;
+  height:34px;
+  border:2px solid #fff;
+  border-radius:50%;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:11px;
+  font-weight:900;
+  animation:ridewarpSpin 5s linear infinite;
+}
+
+@keyframes ridewarpSpin{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
+
 .nav{
   display:flex;
-  gap:26px;
+  gap:28px;
 }
 
 .nav a{
-  color:#aaa;
+  color:#888;
   text-decoration:none;
   font-size:14px;
+  transition:.2s;
 }
 
 .nav a:hover{
-  color:white;
+  color:#fff;
 }
+
+/* HERO */
 
 .hero{
   text-align:center;
-  padding:90px 20px 50px;
+  padding:105px 20px 65px;
   position:relative;
   z-index:1;
 }
 
 .badge{
-  display:inline-block;
-  padding:8px 13px;
-  border:1px solid #333;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:9px 14px;
+  border:1px solid #292929;
   border-radius:999px;
   color:#aaa;
-  font-size:12px;
-  margin-bottom:25px;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:1px;
+  background:rgba(255,255,255,.025);
+  box-shadow:0 0 30px rgba(255,255,255,.03);
+  margin-bottom:27px;
+}
+
+.badge:before{
+  content:"";
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 12px #fff;
 }
 
 h1{
-  font-size:clamp(48px,10vw,92px);
-  line-height:.92;
-  letter-spacing:-5px;
-  max-width:900px;
+  font-size:clamp(52px,10vw,100px);
+  line-height:.9;
+  letter-spacing:-6px;
+  max-width:1000px;
   margin:auto;
 }
 
-.hero p{
-  color:#999;
-  font-size:18px;
-  line-height:1.5;
-  max-width:600px;
-  margin:28px auto 0;
+.hero h1 span{
+  color:#777;
 }
 
+.hero p{
+  color:#888;
+  font-size:18px;
+  line-height:1.6;
+  max-width:620px;
+  margin:30px auto 0;
+}
+
+/* BUILDER */
+
 .builder{
-  max-width:850px;
-  margin:50px auto;
+  max-width:900px;
+  margin:20px auto 0;
   padding:0 20px;
   position:relative;
   z-index:2;
 }
 
+/* UPLOAD */
+
 .upload{
+  position:relative;
   border:1px solid #292929;
   border-radius:28px;
-  min-height:300px;
+  min-height:330px;
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  background:#090909;
-  transition:.25s;
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.008)),
+    #080808;
   overflow:hidden;
+  transition:.3s;
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.45),
+    inset 0 1px rgba(255,255,255,.04);
+}
+
+.upload:before{
+  content:"";
+  position:absolute;
+  inset:1px;
+  border-radius:27px;
+  border:1px dashed #292929;
+  pointer-events:none;
 }
 
 .upload:hover{
-  border-color:#555;
+  border-color:#444;
   transform:translateY(-3px);
+  box-shadow:
+    0 35px 90px rgba(0,0,0,.55),
+    0 0 50px rgba(255,255,255,.025);
 }
 
 .upload-icon{
-  font-size:42px;
-  margin-bottom:18px;
+  width:62px;
+  height:62px;
+  border:1px solid #333;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  margin-bottom:20px;
+  background:#111;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
 }
 
 .upload h2{
-  font-size:28px;
-  margin-bottom:10px;
+  font-size:29px;
+  letter-spacing:-1px;
+  margin-bottom:9px;
 }
 
 .upload p{
   color:#777;
   margin-bottom:24px;
+  font-size:14px;
 }
 
 input[type=file]{
@@ -152,14 +250,21 @@ input[type=file]{
 }
 
 .button{
-  border:0;
+  border:1px solid #fff;
   background:#fff;
   color:#000;
-  padding:15px 25px;
+  padding:15px 26px;
   border-radius:12px;
-  font-size:16px;
-  font-weight:700;
+  font-size:15px;
+  font-weight:800;
   cursor:pointer;
+  transition:.2s;
+  box-shadow:0 8px 30px rgba(255,255,255,.08);
+}
+
+.button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 35px rgba(255,255,255,.15);
 }
 
 .button:active{
@@ -169,19 +274,34 @@ input[type=file]{
 .preview{
   display:none;
   width:100%;
-  max-height:430px;
+  max-height:480px;
   object-fit:contain;
   background:#000;
 }
 
+/* CONTROLS */
+
 .controls{
-  margin-top:35px;
+  margin-top:40px;
+}
+
+.section-label{
+  color:#666;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:9px;
 }
 
 .section-title{
-  font-size:25px;
-  margin-bottom:16px;
+  font-size:26px;
+  font-weight:800;
+  letter-spacing:-1px;
+  margin-bottom:17px;
 }
+
+/* WORLD CARDS */
 
 .worlds{
   display:grid;
@@ -190,149 +310,291 @@ input[type=file]{
 }
 
 .world{
-  padding:22px 10px;
-  border:1px solid #292929;
-  border-radius:16px;
+  position:relative;
+  padding:25px 10px;
+  border:1px solid #242424;
+  border-radius:18px;
   background:#090909;
-  color:#aaa;
+  color:#888;
   cursor:pointer;
-  transition:.2s;
+  transition:.25s;
   text-align:center;
+  font-size:14px;
+  font-weight:700;
+  overflow:hidden;
+}
+
+.world:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.06),transparent 55%);
+  opacity:0;
+  transition:.25s;
 }
 
 .world:hover{
-  border-color:#666;
-  color:white;
+  border-color:#555;
+  color:#fff;
+  transform:translateY(-3px);
+}
+
+.world:hover:before{
+  opacity:1;
 }
 
 .world.active{
   border-color:#fff;
-  color:white;
+  color:#fff;
   background:#151515;
+  box-shadow:
+    0 0 30px rgba(255,255,255,.04),
+    inset 0 1px rgba(255,255,255,.08);
 }
 
 .world span{
   display:block;
-  font-size:25px;
-  margin-bottom:9px;
+  font-size:28px;
+  margin-bottom:10px;
+}
+
+/* PROMPT */
+
+.prompt-wrap{
+  margin-top:25px;
 }
 
 .prompt{
   width:100%;
-  margin-top:18px;
-  padding:17px;
-  border-radius:14px;
+  padding:18px;
+  border-radius:15px;
   border:1px solid #292929;
   background:#090909;
   color:white;
   outline:none;
   font-size:15px;
+  transition:.2s;
+}
+
+.prompt::placeholder{
+  color:#555;
 }
 
 .prompt:focus{
   border-color:#666;
+  box-shadow:0 0 25px rgba(255,255,255,.035);
 }
 
+/* GENERATE */
+
 .generate{
+  position:relative;
   width:100%;
-  margin-top:18px;
-  padding:18px;
-  border-radius:14px;
+  margin-top:14px;
+  padding:19px;
+  border-radius:15px;
   border:0;
-  background:white;
-  color:black;
+  background:#fff;
+  color:#000;
   font-size:17px;
-  font-weight:800;
+  font-weight:900;
   cursor:pointer;
+  overflow:hidden;
+  transition:.2s;
+}
+
+.generate:before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:70%;
+  height:100%;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.8),
+    transparent
+  );
+  transition:.6s;
+}
+
+.generate:hover:before{
+  left:130%;
+}
+
+.generate:hover{
+  transform:translateY(-2px);
+  box-shadow:0 15px 40px rgba(255,255,255,.12);
+}
+
+.generate:active{
+  transform:scale(.985);
 }
 
 .generate:disabled{
   opacity:.45;
   cursor:not-allowed;
+  transform:none;
 }
+
+/* STATUS */
 
 .status{
   text-align:center;
-  color:#888;
+  color:#777;
   margin-top:18px;
   min-height:22px;
+  font-size:13px;
 }
 
+/* HOW IT WORKS */
+
 .info{
-  max-width:850px;
-  margin:100px auto;
+  max-width:900px;
+  margin:130px auto 0;
   padding:0 20px;
   text-align:center;
+  position:relative;
+  z-index:1;
+}
+
+.info-tag{
+  color:#666;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  margin-bottom:14px;
 }
 
 .info h2{
-  font-size:42px;
-  letter-spacing:-2px;
-  margin-bottom:15px;
+  font-size:clamp(38px,7vw,62px);
+  line-height:.95;
+  letter-spacing:-4px;
+  margin-bottom:20px;
 }
 
 .info p{
-  color:#888;
-  line-height:1.6;
+  color:#777;
+  max-width:600px;
+  margin:auto;
+  line-height:1.7;
 }
+
+/* STEPS */
+
+.steps{
+  max-width:900px;
+  margin:65px auto 0;
+  padding:0 20px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  position:relative;
+  z-index:1;
+}
+
+.step{
+  border:1px solid #1f1f1f;
+  border-radius:20px;
+  padding:25px;
+  background:#080808;
+}
+
+.step-number{
+  color:#555;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1px;
+  margin-bottom:30px;
+}
+
+.step h3{
+  font-size:19px;
+  margin-bottom:9px;
+}
+
+.step p{
+  color:#666;
+  font-size:13px;
+  line-height:1.5;
+}
+
+/* FOOTER */
 
 footer{
-  border-top:1px solid #181818;
+  border-top:1px solid #171717;
   padding:30px 6%;
-  color:#555;
+  color:#444;
   text-align:center;
-  margin-top:80px;
+  margin-top:120px;
+  font-size:12px;
+  position:relative;
+  z-index:1;
 }
 
-@media(max-width:650px){
+/* MOBILE */
+
+@media(max-width:700px){
+
+  header{
+    padding:18px 20px;
+  }
+
+  .logo{
+    font-size:20px;
+  }
+
+  .logo-spin{
+    width:31px;
+    height:31px;
+  }
+
   .nav{
     display:none;
   }
 
-  header{
-    padding:20px;
-  }
-
   .hero{
-    padding-top:65px;
+    padding:75px 20px 50px;
   }
 
   h1{
-    letter-spacing:-3px;
+    font-size:54px;
+    letter-spacing:-4px;
   }
 
   .hero p{
-    font-size:16px;
+    font-size:15px;
+    margin-top:24px;
+  }
+
+  .builder{
+    padding:0 15px;
+  }
+
+  .upload{
+    min-height:290px;
+    border-radius:24px;
+  }
+
+  .upload h2{
+    font-size:25px;
   }
 
   .worlds{
     grid-template-columns:repeat(2,1fr);
   }
 
-  .upload{
-    min-height:270px;
-  }
-}
-.logo-spin {
-  width: 34px;
-  height: 34px;
-  border: 2px solid white;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 900;
-  animation: ridewarpSpin 5s linear infinite;
-}
-
-@keyframes ridewarpSpin {
-  0% {
-    transform: rotate(0deg);
+  .steps{
+    grid-template-columns:1fr;
   }
 
-  100% {
-    transform: rotate(360deg);
+  .info{
+    margin-top:100px;
+  }
+
+  .info h2{
+    letter-spacing:-3px;
   }
 }
 </style>
@@ -341,98 +603,172 @@ footer{
 <body>
 
 <header>
+
   <div class="logo">
-  <span class="logo-spin">RW</span>
-  <span>RIDEWARP</span>
-</div>
+    <span class="logo-spin">RW</span>
+    <span>RIDEWARP</span>
+  </div>
+
   <nav class="nav">
     <a href="#create">Create</a>
     <a href="#how">How it works</a>
   </nav>
+
 </header>
 
-<section class="hero">
-  <div class="badge">AI-POWERED RIDE VISUALS</div>
 
-  <h1>Turn your ride into anywhere.</h1>
+<section class="hero">
+
+  <div class="badge">
+    AI-POWERED RIDE VISUALS
+  </div>
+
+  <h1>
+    Turn your ride<br>
+    <span>into anywhere.</span>
+  </h1>
 
   <p>
-    Upload your bike video and imagine it in completely different worlds.
+    Upload your bike video and transform it into cinematic worlds
+    that look like they came straight out of another reality.
   </p>
+
 </section>
+
 
 <section class="builder" id="create">
 
   <div class="upload" id="uploadBox">
 
-    <video class="preview" id="preview" controls></video>
+    <video
+      class="preview"
+      id="preview"
+      controls>
+    </video>
 
     <div id="uploadContent">
+
       <div class="upload-icon">↑</div>
 
       <h2>Upload your ride</h2>
 
-     <p>Choose a video to start creating.</p>
-<p style="color:#777; font-size:13px; margin-top:-15px;">
-  5–15 sec max
-</p>
+      <p>Choose a video to start creating.</p>
+
+      <p style="color:#555;font-size:12px;margin-top:-16px;">
+        5–15 sec max
+      </p>
 
       <label class="button">
         Choose video
-        <input id="videoInput" type="file" accept="video/*">
+        <input
+          id="videoInput"
+          type="file"
+          accept="video/*">
       </label>
+
     </div>
 
   </div>
 
+
   <div class="controls">
 
-    <div class="section-title">Choose your world</div>
+    <div class="section-label">
+      Step 01
+    </div>
+
+    <div class="section-title">
+      Choose your world
+    </div>
+
 
     <div class="worlds">
 
-      <button class="world active" data-world="Mountain">
+      <button
+        class="world active"
+        data-world="Mountain">
+
         <span>🏔️</span>
         Mountain
+
       </button>
 
-      <button class="world" data-world="Snow">
+
+      <button
+        class="world"
+        data-world="Snow">
+
         <span>❄️</span>
         Snow
+
       </button>
 
-      <button class="world" data-world="City">
+
+      <button
+        class="world"
+        data-world="City">
+
         <span>🌃</span>
         City
+
       </button>
 
-      <button class="world" data-world="Space">
+
+      <button
+        class="world"
+        data-world="Space">
+
         <span>🌌</span>
         Space
+
       </button>
 
     </div>
 
-    <input
-      class="prompt"
-      id="prompt"
-      type="text"
-      placeholder="Describe your world... e.g. neon city at night"
-    >
 
-    <button class="generate" id="generate">
+    <div class="prompt-wrap">
+
+      <div class="section-label">
+        Step 02
+      </div>
+
+      <input
+        class="prompt"
+        id="prompt"
+        type="text"
+        placeholder="Describe your world... e.g. neon city at night">
+
+    </div>
+
+
+    <button
+      class="generate"
+      id="generate">
+
       Generate RideWarp
+
     </button>
 
-    <div class="status" id="status"></div>
+
+    <div
+      class="status"
+      id="status">
+    </div>
 
   </div>
 
 </section>
 
+
 <section class="info" id="how">
 
-  <h2>Ride → Warp → Anywhere.</h2>
+  <div class="info-tag">
+    HOW IT WORKS
+  </div>
+
+  <h2>
+    Ride → Warp → Anywhere.
+  </h2>
 
   <p>
     Pick a world, describe the scene you want, and RideWarp
@@ -441,120 +777,228 @@ footer{
 
 </section>
 
+
+<section class="steps">
+
+  <div class="step">
+
+    <div class="step-number">
+      01 — UPLOAD
+    </div>
+
+    <h3>
+      Upload your ride
+    </h3>
+
+    <p>
+      Add a short bike video between 5 and 15 seconds.
+    </p>
+
+  </div>
+
+
+  <div class="step">
+
+    <div class="step-number">
+      02 — CREATE
+    </div>
+
+    <h3>
+      Pick your world
+    </h3>
+
+    <p>
+      Choose a world and describe exactly how you want it to look.
+    </p>
+
+  </div>
+
+
+  <div class="step">
+
+    <div class="step-number">
+      03 — WARP
+    </div>
+
+    <h3>
+      Get your result
+    </h3>
+
+    <p>
+      RideWarp processes your video and turns your idea into a visual.
+    </p>
+
+  </div>
+
+</section>
+
+
 <footer>
   © 2026 RideWarp
 </footer>
+
 
 <script>
 
 let selectedWorld = "Mountain";
 let selectedVideo = null;
 
-const videoInput = document.getElementById("videoInput");
-const preview = document.getElementById("preview");
-const uploadContent = document.getElementById("uploadContent");
-const generate = document.getElementById("generate");
-const status = document.getElementById("status");
-const prompt = document.getElementById("prompt");
+const videoInput =
+  document.getElementById("videoInput");
+
+const preview =
+  document.getElementById("preview");
+
+const uploadContent =
+  document.getElementById("uploadContent");
+
+const generate =
+  document.getElementById("generate");
+
+const status =
+  document.getElementById("status");
+
+const prompt =
+  document.getElementById("prompt");
+
+
+/* VIDEO UPLOAD */
 
 videoInput.addEventListener("change", function(){
-const file = this.files[0];
 
-if(!file) return;
+  const file = this.files[0];
 
-const url = URL.createObjectURL(file);
-const testVideo = document.createElement("video");
+  if(!file) return;
 
-testVideo.preload = "metadata";
+  const url =
+    URL.createObjectURL(file);
 
-testVideo.onloadedmetadata = function(){
+  const testVideo =
+    document.createElement("video");
 
-  URL.revokeObjectURL(testVideo.src);
+  testVideo.preload = "metadata";
 
-  const duration = testVideo.duration;
 
-  if(duration < 5 || duration > 15){
+  testVideo.onloadedmetadata = function(){
 
-  if(duration < 5 || duration > 15){
+    const duration =
+      testVideo.duration;
 
-  videoInput.value = "";
+    if(duration < 5 || duration > 15){
 
-  preview.pause();
-  preview.removeAttribute("src");
-  preview.load();
-  preview.style.display = "none";
+      URL.revokeObjectURL(url);
 
-  uploadContent.style.display = "flex";
+      videoInput.value = "";
 
-  status.textContent =
-    "Video must be between 5 and 15 seconds.";
+      preview.pause();
+      preview.removeAttribute("src");
+      preview.load();
 
-  return;
-}
-  }
+      preview.style.display = "none";
 
-  selectedVideo = file;
+      uploadContent.style.display = "flex";
 
-  preview.src = url;
-  preview.style.display = "block";
-  uploadContent.style.display = "none";
+      selectedVideo = null;
 
-  status.textContent =
-    "Video ready ✓ (" + Math.round(duration * 10) / 10 + " sec)";
+      status.textContent =
+        "Video must be between 5 and 15 seconds.";
 
-};
+      return;
+    }
 
-testVideo.onerror = function(){
 
-  URL.revokeObjectURL(testVideo.src);
+    selectedVideo = file;
 
-  videoInput.value = "";
+    preview.src = url;
 
-  status.textContent = "Couldn't read that video.";
+    preview.style.display = "block";
 
-};
+    uploadContent.style.display = "none";
 
-testVideo.src = url;
-  
+    status.textContent =
+      "Video ready ✓ (" +
+      Math.round(duration * 10) / 10 +
+      " sec)";
+
+  };
+
+
+  testVideo.onerror = function(){
+
+    URL.revokeObjectURL(url);
+
+    videoInput.value = "";
+
+    selectedVideo = null;
+
+    status.textContent =
+      "Couldn't read that video.";
+
+  };
+
+
+  testVideo.src = url;
 
 });
 
-document.querySelectorAll(".world").forEach(button => {
+
+/* WORLD SELECTION */
+
+document
+.querySelectorAll(".world")
+.forEach(button => {
 
   button.addEventListener("click", function(){
 
-    document.querySelectorAll(".world").forEach(item=>{
+    document
+    .querySelectorAll(".world")
+    .forEach(item => {
+
       item.classList.remove("active");
+
     });
+
 
     this.classList.add("active");
 
-    selectedWorld = this.dataset.world;
+    selectedWorld =
+      this.dataset.world;
 
-    status.textContent = selectedWorld + " selected ✓";
+    status.textContent =
+      selectedWorld + " selected ✓";
 
   });
 
 });
 
+
+/* GENERATE */
+
 generate.addEventListener("click", function(){
 
   if(!selectedVideo){
 
-    status.textContent = "Upload a video first.";
+    status.textContent =
+      "Upload a video first.";
 
-    document.getElementById("uploadBox").scrollIntoView({
+    document
+    .getElementById("uploadBox")
+    .scrollIntoView({
       behavior:"smooth"
     });
 
     return;
+
   }
+
 
   generate.disabled = true;
 
-  status.textContent = "Preparing your RideWarp...";
+  status.textContent =
+    "Preparing your RideWarp...";
 
-  setTimeout(()=>{
+
+  setTimeout(() => {
 
     status.textContent =
       "Demo mode: the AI video engine will be connected next.";
