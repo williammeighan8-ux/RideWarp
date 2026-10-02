@@ -448,12 +448,22 @@ testVideo.onloadedmetadata = function(){
 
   if(duration < 5 || duration > 15){
 
-    videoInput.value = "";
+  if(duration < 5 || duration > 15){
 
-    status.textContent =
-      "Video must be between 5 and 15 seconds.";
+  videoInput.value = "";
 
-    return;
+  preview.pause();
+  preview.removeAttribute("src");
+  preview.load();
+  preview.style.display = "none";
+
+  uploadContent.style.display = "flex";
+
+  status.textContent =
+    "Video must be between 5 and 15 seconds.";
+
+  return;
+}
   }
 
   selectedVideo = file;
