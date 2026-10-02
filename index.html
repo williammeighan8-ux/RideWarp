@@ -431,20 +431,54 @@ const status = document.getElementById("status");
 const prompt = document.getElementById("prompt");
 
 videoInput.addEventListener("change", function(){
+const file = this.files[0];
 
-  const file = this.files[0];
+if(!file) return;
 
-  if(!file) return;
+const url = URL.createObjectURL(file);
+const testVideo = document.createElement("video");
+
+testVideo.preload = "metadata";
+
+testVideo.onloadedmetadata = function(){
+
+  URL.revokeObjectURL(testVideo.src);
+
+  const duration = testVideo.duration;
+
+  if(duration < 5 || duration > 15){
+
+    videoInput.value = "";
+
+    status.textContent =
+      "Video must be between 5 and 15 seconds.";
+
+    return;
+  }
 
   selectedVideo = file;
-
-  const url = URL.createObjectURL(file);
 
   preview.src = url;
   preview.style.display = "block";
   uploadContent.style.display = "none";
 
-  status.textContent = "Video ready ✓";
+  status.textContent =
+    "Video ready ✓ (" + Math.round(duration * 10) / 10 + " sec)";
+
+};
+
+testVideo.onerror = function(){
+
+  URL.revokeObjectURL(testVideo.src);
+
+  videoInput.value = "";
+
+  status.textContent = "Couldn't read that video.";
+
+};
+
+testVideo.src = url;
+  
 
 });
 
