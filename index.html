@@ -2525,7 +2525,8 @@ generateBtn.addEventListener("click", async function(){
 
   generateBtn.disabled = true;
   generateBtn.textContent = "GENERATING...";
-  generateStatus.textContent = "Sending your ride to RideWarp AI...";
+  generateStatus.textContent =
+    "RideWarp AI is transforming your ride...";
 
   try {
 
@@ -2553,22 +2554,36 @@ generateBtn.addEventListener("click", async function(){
       );
     }
 
-    console.log("Runway response:", data);
+    if(!data.videoUrl){
+      throw new Error("AI finished, but no video was returned.");
+    }
+
+    // Show the finished AI video
+    videoPreview.src = data.videoUrl;
+    videoPreview.style.display = "block";
+    videoPreview.controls = true;
+
+    videoPreview.load();
+    videoPreview.play().catch(() => {});
 
     generateStatus.textContent =
-      "✓ RideWarp AI generation started.";
+      "✓ Your RideWarp is ready!";
 
-    generateBtn.textContent = "GENERATION STARTED";
+    generateBtn.disabled = false;
+    generateBtn.textContent = "CREATE ANOTHER";
 
   } catch(error) {
 
     console.error(error);
 
     generateStatus.textContent =
-      "Something went wrong: " + error.message;
+      "Generation failed: " + error.message;
 
     generateBtn.disabled = false;
     generateBtn.textContent = "TRY AGAIN";
+  }
+
+});
 
   }
 
