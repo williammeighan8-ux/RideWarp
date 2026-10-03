@@ -2510,10 +2510,69 @@ document
 /* =========================================================
    GENERATE DEMO
 ========================================================= */
+generateBtn.addEventListener("click", async function(){
 
-generateBtn.addEventListener(
-  "click",
-  function(){
+  if(!selectedVideo){
+    generateStatus.textContent = "Upload your ride first.";
+    document.getElementById("uploadBox").scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+    return;
+  }
+
+  const prompt = document.getElementById("promptInput").value;
+
+  generateBtn.disabled = true;
+  generateBtn.textContent = "GENERATING...";
+  generateStatus.textContent = "Sending your ride to RideWarp AI...";
+
+  try {
+
+    const formData = new FormData();
+
+    formData.append("video", selectedVideo);
+
+    formData.append(
+      "prompt",
+      `Create a ${selectedWorld} environment. ${prompt}`
+    );
+
+    const response = await fetch("/api/generate", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await response.json();
+
+    if(!response.ok){
+      throw new Error(
+        data.error
+          ? JSON.stringify(data.error)
+          : "Generation failed."
+      );
+    }
+
+    console.log("Runway response:", data);
+
+    generateStatus.textContent =
+      "✓ RideWarp AI generation started.";
+
+    generateBtn.textContent = "GENERATION STARTED";
+
+  } catch(error) {
+
+    console.error(error);
+
+    generateStatus.textContent =
+      "Something went wrong: " + error.message;
+
+    generateBtn.disabled = false;
+    generateBtn.textContent = "TRY AGAIN";
+
+  }
+
+});
 
     if(!selectedVideo){
 
