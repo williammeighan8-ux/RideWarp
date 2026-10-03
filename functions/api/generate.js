@@ -15,30 +15,23 @@ export async function onRequestPost(context) {
       );
     }
 
-    // Convert uploaded video to a data URI that Runway can receive.
     const buffer = await video.arrayBuffer();
     const bytes = new Uint8Array(buffer);
 
     let binary = "";
-    const chunkSize = 0x8000;
 
-    for (let i = 0; i < bytes.length; i += chunkSize) {
+    for (let i = 0; i < bytes.length; i += 0x8000) {
       binary += String.fromCharCode(
-        ...bytes.subarray(i, i + chunkSize)
+        ...bytes.subarray(i, i + 0x8000)
       );
     }
 
     const base64 = btoa(binary);
-
     const mimeType = video.type || "video/mp4";
+
     const videoUri = `data:${mimeType};base64,${base64}`;
 
-    const runwayPrompt =
-      `Keep the original bike, rider, movement, camera motion, and timing. ` +
-      `Transform the surrounding environment realistically. ` +
-      `${prompt}`;
-
-    const response = await fetch(
+    const runwayResponse = await fetch(
       "https://api.dev.runwayml.com/v1/video_to_video",
       {
         method: "POST",
@@ -50,29 +43,77 @@ export async function onRequestPost(context) {
         body: JSON.stringify({
           model: "gemini_omni_flash",
           videoUri: videoUri,
-          promptText: runwayPrompt
+          promptText:
+            `Keep the original bike, rider, movement, camera motion, and timing. ` +
+            `Transform the environment realistically. ${prompt}`
         })
       }
     );
 
-    const data = await response.json();
+    const task = await runwayResponse.json();
 
-    if (!response.ok) {
-      return new Response(
-        JSON.stringify({
-          error: data
-        }),
+    if (!runwayResponse.ok) {
+      return new Response(JSON.stringify(task), {
+        status: runwayResponse.status,
+        headers: { "Content-Type": "application/json" }
+      });
+    }
+
+    const taskId = task.id;
+
+    // Wait for Runway to finish.
+    for (let attempt = 0; attempt < 60; attempt++) {
+      await new Promise(resolve => setTimeout(resolve, 5000));
+
+      const statusResponse = await fetch(
+        `https://api.dev.runwayml.com/v1/tasks/${taskId}`,
         {
-          status: response.status,
-          headers: { "Content-Type": "application/json" }
+          headers: {
+            "Authorization": `Bearer ${context.env.RUNWAY_API_KEY}`,
+            "X-Runway-Version": "2024-11-06"
+          }
         }
       );
+
+      const status = await statusResponse.json();
+
+      if (status.status === "SUCCEEDED") {
+        return new Response(
+          JSON.stringify({
+            success: true,
+            videoUrl: status.output?.[0] || null
+          }),
+          {
+            status: 200,
+            headers: { "Content-Type": "application/json" }
+          }
+        );
+      }
+
+      if (
+        status.status === "FAILED" ||
+        status.status === "CANCELED"
+      ) {
+        return new Response(
+          JSON.stringify({
+            error: "Runway generation failed.",
+            details: status
+          }),
+          {
+            status: 500,
+            headers: { "Content-Type": "application/json" }
+          }
+        );
+      }
     }
 
     return new Response(
-      JSON.stringify(data),
+      JSON.stringify({
+        error: "Generation is taking too long. Try again later.",
+        taskId: taskId
+      }),
       {
-        status: 200,
+        status: 504,
         headers: { "Content-Type": "application/json" }
       }
     );
